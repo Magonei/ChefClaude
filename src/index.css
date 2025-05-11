@@ -1,11 +1,17 @@
 * {
   box-sizing: border-box;
+  margin: 0; /* Added to reset default margins often */
+  padding: 0; /* Added to reset default paddings often */
 }
 
 body {
   margin: 0;
   font-family: Inter, sans-serif;
   background-color: #FAFAF8;
+}
+/* Ensure box-sizing is inherited */
+html {
+  box-sizing: border-box;
 }
 
 header {
@@ -19,11 +25,13 @@ header {
 }
 
 header > img {
-  width: 50px;
+  width: 45px; /* Slightly smaller for balance */
+  height: auto;
 }
 
-header > h1 {
-  font-weight: 400;
+/* appName is a span, not h1, as per header.jsx */
+.appName {
+  font-size: 1.5rem; /* Example size, adjust as needed */
 }
 
 main {
@@ -33,8 +41,8 @@ main {
 .add-ingredient-form {
   display: flex;
   justify-content: center;
+  align-items: stretch; /* Ensures button and input are same height */
   gap: 12px;
-  height: 38px;
 }
 
 .add-ingredient-form > input {
@@ -43,7 +51,7 @@ main {
   padding: 9px 13px;
   box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
   flex-grow: 1;
-  min-width: 150px;
+  min-width: 100px; /* Allow more flexibility on smaller screens */
   max-width: 400px;
 }
 
@@ -53,7 +61,8 @@ main {
   border: none;
   background-color: #141413;
   color: #FAFAF8;
-  width: 150px;
+  padding: 9px 15px; /* Use padding for width instead of fixed width */
+  min-width: 100px; /* Ensure a minimum tap target / readable area */
   font-size: 0.875rem;
   font-weight: 500;
 }
@@ -64,6 +73,7 @@ main {
 }
 
 ul.ingredients-list {
+  list-style-position: inside; /* Better alignment for list markers */
   margin-bottom: 48px;
 }
 
@@ -114,4 +124,67 @@ ul.ingredients-list > li {
 
 .suggested-recipe-container ul li, .suggested-recipe-container ol li {
   margin-bottom: 8px;
+}
+
+/* --- Responsive Styles --- */
+
+/* Tablet and smaller devices */
+@media (max-width: 1023px) {
+  main {
+    padding: 20px 20px 10px;
+  }
+
+  .add-ingredient-form > input {
+    max-width: 300px;
+  }
+}
+
+/* Mobile devices */
+@media (max-width: 767px) {
+  header {
+    gap: 8px;
+    height: 70px;
+    padding: 0 15px; /* Add some padding to header on mobile */
+    justify-content: flex-start; /* Align logo to the left if appName is hidden */
+  }
+
+  header > img {
+    width: 40px;
+  }
+
+  .appName {
+    display: none; /* Hide app name on mobile */
+  }
+
+  main {
+    padding: 15px 15px 10px;
+  }
+
+  .add-ingredient-form {
+    flex-direction: column; /* Stack input and button */
+    align-items: stretch; /* Make items take full width of the column */
+  }
+
+  .add-ingredient-form > input,
+  .add-ingredient-form > button {
+    width: 100%; /* Full width for stacked items */
+    max-width: none; /* Override max-width for input in stacked view */
+  }
+
+  .add-ingredient-form button .button-ingredient-text {
+    display: none; /* Hide "ingredient" text in add button on mobile */
+  }
+
+  .get-recipe-container {
+    flex-direction: column;
+    align-items: center; /* Center items when stacked */
+    text-align: center; /* Center text content */
+    padding: 15px 20px;
+    gap: 15px; /* Space between stacked items */
+  }
+
+  .get-recipe-container button {
+    width: 80%; /* Make button prominent */
+    max-width: 280px; /* But not excessively wide */
+  }
 }
