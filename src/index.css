@@ -16,20 +16,30 @@ html {
 
 header {
   display: flex;
-  justify-content: center;
+  justify-content: space-between; /* Changed to space-between for new layout */
   align-items: center;
-  gap: 11px;
+  /* gap: 11px; */ /* Removed: Gap now handled within .header-main-content or by spacers */
   height: 80px;
   background-color: white;
   box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.10), 0px 1px 2px 0px rgba(0, 0, 0, 0.06);
+  padding: 0 20px; /* Added horizontal padding */
 }
 
-header > img {
+/* New wrapper for logo and app name */
+.header-main-content {
+  display: flex;
+  align-items: center;
+  gap: 11px; /* This was the original gap between logo and appName */
+}
+
+/* Updated selector for the logo image */
+.header-main-content > .logo { /* Was: header > img */
   width: 45px; /* Slightly smaller for balance */
   height: auto;
 }
 
 /* appName is a span, not h1, as per header.jsx */
+/* .appName styles remain the same */
 .appName {
   font-size: 1.5rem; /* Example size, adjust as needed */
 }
@@ -37,6 +47,20 @@ header > img {
 main {
   padding: 30px 30px 10px;
 }
+
+/* New styles for spacer elements and the right slot */
+.header-spacer-left {
+  width: 90px; /* Balances the right slot, assuming toggle width. Adjust if needed. */
+  flex-shrink: 0; /* Prevents shrinking */
+}
+
+.header-right-slot {
+  width: 90px; /* This is for the "div vacío". Matches .toggle width for potential use. */
+  flex-shrink: 0; /* Prevents shrinking */
+  display: flex; /* Allows alignment of content if any is added later */
+  justify-content: flex-end; /* Aligns potential content (like a toggle) to the right */
+}
+
 
 .add-ingredient-form {
   display: flex;
@@ -78,6 +102,14 @@ ul.ingredients-list {
   margin-bottom: 48px;
 }
 
+/* Styles for the IngredientsList section wrapper */
+.ingredients-list-section {
+  max-width: 560px; /* Constrains width, similar to form content */
+  margin-left: auto;   /* Centers the section */
+  margin-right: auto;  /* Centers the section */
+  margin-top: 3vh;      /* Adds top margin, consistent with form's bottom margin */
+}
+
 ul.ingredients-list > li {
   color: #475467;
   line-height: 28px;
@@ -116,6 +148,14 @@ ul.ingredients-list > li {
   cursor: pointer;
 }
 
+/* Styles for the ClaudeRecipe section wrapper */
+.claude-recipe-section {
+  max-width: 900px; /* Increased width for less side margin, adjust as needed */
+  margin-left: auto;   /* Centers the section */
+  margin-right: auto;  /* Centers the section */
+  margin-top: 3vh;      /* Adds top margin, consistent with other vertical spacing */
+}
+
 .suggested-recipe-container {
   color: #475467;
   line-height: 28px;
@@ -125,6 +165,79 @@ ul.ingredients-list > li {
 
 .suggested-recipe-container ul li, .suggested-recipe-container ol li {
   margin-bottom: 8px;
+}
+
+.toggle{
+  background-color: #B0BEC5; /* Nuevo color: Gris azulado medio para tema español (por defecto) */
+  width: 90px;
+  height:40px;
+  display: flex;
+  /* justify-content: flex-end; Ya no se usa, la bola se mueve con transform */
+  /* padding-right:5px; Ya no se usa */
+  padding: 5px; /* Padding consistente en ambos lados */
+  align-items: center;
+  border-radius:50px;
+  cursor: pointer; /* Para indicar que es clickeable */
+  transition: background-color 0.3s ease-in-out; /* Transición para el color de fondo */
+}
+
+.toggle-ball {
+  height:30px;
+  width:30px;
+  background-color: #FAFAF8;
+  border-radius: 50px;
+  display: flex; /* Added to arrange stripes */
+  flex-direction: column; /* Stack stripes vertically */
+  overflow: hidden; /* Ensures stripes are clipped by the border-radius */
+  transform: translateX(calc(90px - 30px - 5px - 5px)); /* Posición inicial (derecha, para español). 90-30-10 = 50px */
+  transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out; /* Animación de movimiento y color */
+}
+
+/* Styles for the Spanish flag stripes */
+.flag-stripe {
+  width: 100%; /* Each stripe takes full width of the ball */
+}
+
+.flag-red-top {
+  background-color: #AA151B; /* Spanish flag red */
+  height: 25%; /* Top red stripe is 1/4 of the height */
+}
+
+.flag-yellow {
+  background-color: #F1BF00; /* Spanish flag yellow */
+  height: 50%; /* Yellow stripe is 1/2 of the height */
+}
+
+.flag-red-bottom {
+  background-color: #AA151B; /* Spanish flag red */
+  height: 25%; /* Bottom red stripe is 1/4 of the height */
+}
+
+/* Estilos para cuando el toggle está en modo inglés */
+.toggle.english-active {
+  background-color: #2563EB; /* Nuevo color azul moderno para tema inglés (activo) */
+}
+
+.toggle.english-active .toggle-ball {
+  transform: translateX(0); /* Mueve la bola a la izquierda */
+}
+
+/* Estilos para la bola cuando muestra la bandera inglesa */
+.toggle-ball.english-flag-mode {
+  background-color: #FFFFFF; /* Fondo blanco para la cruz de San Jorge */
+  position: relative; /* Para posicionar los elementos de la cruz */
+}
+
+/* Estilos para la cruz de San Jorge (bandera inglesa simplificada) */
+.flag-cross {
+  position: absolute;
+  background-color: #CF142B; /* Rojo de la cruz de San Jorge */
+}
+.flag-cross-vertical {
+  width: 20%; height: 100%; left: 40%; top: 0;
+}
+.flag-cross-horizontal {
+  width: 100%; height: 20%; top: 40%; left: 0;
 }
 
 /* --- Responsive Styles --- */
@@ -143,13 +256,15 @@ ul.ingredients-list > li {
 /* Mobile devices */
 @media (max-width: 767px) {
   header {
-    gap: 8px;
+    /* gap: 8px; */ /* Removed: Gap handled by .header-main-content or spacers */
     height: 70px;
     padding: 0 15px; /* Add some padding to header on mobile */
-    justify-content: flex-start; /* Align logo to the left if appName is hidden */
+    /* justify-content: flex-start; */ /* Removed: Will inherit space-between from base.
+                                         This keeps the logo centered between spacers even on mobile. */
   }
 
-  header > img {
+  /* Updated selector for logo on mobile */
+  .header-main-content > .logo { /* Was: header > img */
     width: 40px;
   }
 
@@ -157,6 +272,13 @@ ul.ingredients-list > li {
     display: none; /* Hide app name on mobile */
   }
 
+  /* Optional: Adjust spacer widths on mobile if 90px is too much.
+     For now, keeping them to ensure logo centering if the right slot is for a fixed-width item.
+     If the "div vacío" on the right is not meant to take up significant space on mobile,
+     these could be reduced or one hidden.
+  .header-spacer-left,
+  .header-right-slot {
+    width: 40px; /* Example smaller width for mobile spacers */
   main {
     padding: 15px 15px 10px;
   }

@@ -20,7 +20,8 @@ import { getRecipeFromChefClaude, getRecipeFromGemini } from "../ai.js"
  * package that will render the markdown for us soon.)
  */
 
-export default function Main() {
+// Main ahora acepta props para recibir currentGlobalLanguage y handleChangeLanguage
+export default function Main(props) {
 
     const [recipe, setRecipe] = React.useState("")
 
@@ -44,7 +45,7 @@ export default function Main() {
     async function handleGetRecipe() {
         try {
         // Llama a la API y espera la respuesta
-        const aiRecipe = await getRecipeFromGemini(ingredients);
+        const aiRecipe = await getRecipeFromGemini(ingredients, props.currentGlobalLanguage);
         
         // Guarda la receta en el estado
         setRecipe(aiRecipe);
@@ -67,17 +68,21 @@ export default function Main() {
                     aria-label="Add ingredient"
                     name="ingredient"
                 />
-                <button>Add <span className="button-ingredient-text">ingredient</span></button>
+                <button>{props.currentGlobalLanguage === 'es' ? 'Nuevo' : 'Add'}
+                <span className="button-ingredient-text">{props.currentGlobalLanguage === 'es' ? ' ingrediente' : ' ingredient'}</span></button>
             </form>
             {ingredients.length > 0 && <IngredientsList 
                 ingredientsListItems={ingredientsListItems}
                 ingredients={ingredients}
                 toggleShowRecipe={setRecipeShown}
                 handleGetRecipe={handleGetRecipe}
+                currentGlobalLanguage={props.currentGlobalLanguage} // Pasamos la prop aquí
                 />  
             }
             
-            {recipeShown && <ClaudeRecipe recipe={recipe}/>}
+            {recipeShown && <ClaudeRecipe recipe={recipe}
+            currentGlobalLanguage={props.currentGlobalLanguage}
+            />}
             
             
         </main>
