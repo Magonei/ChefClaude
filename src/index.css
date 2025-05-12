@@ -4,10 +4,36 @@
   padding: 0; /* Added to reset default paddings often */
 }
 
+/* CSS Variables for light theme */
+:root {
+  --bg-color: #FAFAF8;
+  --text-color: #141413;
+  --header-bg: white;
+  --card-bg: white;
+  --border-color: #D1D5DB;
+  --shadow-color: rgba(0, 0, 0, 0.05);
+  --button-bg: #141413;
+  --button-text: #FAFAF8;
+}
+
+/* Dark theme overrides */
+body.dark-mode {
+  --bg-color: #1a1a1a;
+  --text-color: #f0f0f0;
+  --header-bg: #2d2d2d;
+  --card-bg: #2d2d2d;
+  --border-color: #444;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --button-bg: #4a4a4a;
+  --button-text: #f0f0f0;
+}
+
 body {
   margin: 0;
   font-family: Inter, sans-serif;
-  background-color: #FAFAF8;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 /* Ensure box-sizing is inherited */
 html {
@@ -16,25 +42,32 @@ html {
 
 header {
   display: flex;
-  justify-content: space-between; /* Changed to space-between for new layout */
+  justify-content: space-between;
   align-items: center;
-  /* gap: 11px; */ /* Removed: Gap now handled within .header-main-content or by spacers */
   height: 80px;
-  background-color: white;
-  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.10), 0px 1px 2px 0px rgba(0, 0, 0, 0.06);
-  padding: 0 20px; /* Added horizontal padding */
+  background-color: var(--header-bg);
+  box-shadow: 0px 1px 3px 0px var(--shadow-color), 0px 1px 2px 0px rgba(0, 0, 0, 0.06);
+  padding: 0 20px;
+  transition: background-color 0.3s ease;
+  position: relative;
 }
 
 /* New wrapper for logo and app name */
 .header-main-content {
+  position: absolute;
+  left: 0;
+  right: 0;
   display: flex;
+  justify-content: center;
   align-items: center;
-  gap: 11px; /* This was the original gap between logo and appName */
+  gap: 11px;
+  pointer-events: none; /* Allow clicks to pass through to elements behind */
 }
 
 /* Updated selector for the logo image */
-.header-main-content > .logo { /* Was: header > img */
-  width: 45px; /* Slightly smaller for balance */
+.header-main-content .logo {
+  width: 45px; /* Adjusted size for better balance */
+  height: auto;
   height: auto;
 }
 
@@ -54,11 +87,61 @@ main {
   flex-shrink: 0; /* Prevents shrinking */
 }
 
+/* Left slot for dark mode toggle */
+.header-left-slot {
+  display: flex;
+  z-index: 1; /* Ensure it's above the centered content */
+}
+
+/* Right slot for language toggle */
 .header-right-slot {
-  width: 90px; /* This is for the "div vacío". Matches .toggle width for potential use. */
-  flex-shrink: 0; /* Prevents shrinking */
-  display: flex; /* Allows alignment of content if any is added later */
-  justify-content: flex-end; /* Aligns potential content (like a toggle) to the right */
+  display: flex;
+  margin-left: auto; /* Push to the right */
+}
+
+.header-controls {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+}
+
+.dark-mode-toggle:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.dark-mode .dark-mode-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  color: var(--text-color);
+  transition: all 0.3s ease;
+}
+
+.dark-mode-icon.light {
+  color: #f5c842; /* Yellow for moon */
+}
+
+.dark-mode-icon.dark {
+  color: #ffd700; /* Gold for sun */
 }
 
 
@@ -84,12 +167,13 @@ main {
   font-family: Inter, sans-serif;
   border-radius: 6px;
   border: none;
-  background-color: #141413;
-  color: #FAFAF8;
-  padding: 9px 15px; /* Use padding for width instead of fixed width */
-  min-width: 100px; /* Ensure a minimum tap target / readable area */
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  padding: 9px 15px;
+  min-width: 100px;
   font-size: 0.875rem;
   font-weight: 500;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .add-ingredient-form > button::before {
@@ -97,8 +181,22 @@ main {
   margin-right: 5px;
 }
 
+/* Dark mode styles for other elements */
+.card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+input, textarea, select {
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  border-color: var(--border-color);
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
 ul.ingredients-list {
-  list-style-position: inside; /* Better alignment for list markers */
+  list-style-position: inside;
   margin-bottom: 48px;
 }
 
