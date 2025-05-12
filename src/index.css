@@ -43,6 +43,7 @@ main {
   justify-content: center;
   align-items: stretch; /* Ensures button and input are same height */
   gap: 12px;
+  margin-bottom: 3vh;
 }
 
 .add-ingredient-form > input {
