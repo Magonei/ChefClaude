@@ -67,7 +67,7 @@ export default function Main() {
                     aria-label="Add ingredient"
                     name="ingredient"
                 />
-                <button>Add ingredient</button>
+                <button>Add <span className="button-ingredient-text">ingredient</span></button>
             </form>
             {ingredients.length > 0 && <IngredientsList 
                 ingredientsListItems={ingredientsListItems}
