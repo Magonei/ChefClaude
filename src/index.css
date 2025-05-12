@@ -271,14 +271,7 @@ ul.ingredients-list > li {
   .appName {
     display: none; /* Hide app name on mobile */
   }
-
-  /* Optional: Adjust spacer widths on mobile if 90px is too much.
-     For now, keeping them to ensure logo centering if the right slot is for a fixed-width item.
-     If the "div vacío" on the right is not meant to take up significant space on mobile,
-     these could be reduced or one hidden.
-  .header-spacer-left,
-  .header-right-slot {
-    width: 40px; /* Example smaller width for mobile spacers */
+  
   main {
     padding: 15px 15px 10px;
   }
